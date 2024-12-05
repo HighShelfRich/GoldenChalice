@@ -1,0 +1,150 @@
+10 rem *** the golden chalice ***
+15 print chr$(147):gosub 1290:rem clr scrn
+20 dim a(100):p=0:c=p:mk=p:sc=p:m=p
+30 for t=1 to 100:a(t)=int(100*rnd(1))+1:if a(t)<56 then a(t)=46
+40 if a(t)>55 and a(t)<66 then a(t)=122
+50 if a(t)>65 and a(t)<76 then a(t)=113
+60 if a(t)>75 and a(t)<86 then a(t)=119
+70 if a(t)>85 and a(t)<96 then a(t)=32
+80 if a(t)>95 and a(t)<101 then a(t)=166
+90 next t
+100 for t=1 to 5:a(int(100*rnd(1)+1))=41:next t
+110 for t=1 to 100:if a(t)=41 then c=c+1
+120 next t:if c<4 then c=0:goto 100
+130 mp=int(100*rnd(1))+1:a(mp)=118:tm=99:c=0
+140 gc=int(100*rnd(1))+1:a(gc)=42:x=30+int((3*rnd(1)+1)*10)+(int(2*rnd(1)+5))
+150 vo=54296:ad=54277:sr=54278:wf=54276:hf=54273:lf=54272
+160 gosub 400
+170 goto 240
+180 input "Ÿwhat now";n$:rem cyan
+190 if n$="m" and a(mp)=46 then gosub 400
+200 if n$="n" and x>10 then x=x-10
+210 if n$="s" and x<90 then x=x+10
+220 if n$="e" and x/10<>int(x/10) then x=x+1
+230 if n$="w" and (x-1)/10<>int((x-1)/10) then x=x-1
+240 poke 53280,2:poke 53281,6
+245 print chr$(147):print "qqq‘>>>>>>>>>> the golden chalice <<<<<<<<<<"
+247 rem clr screen dwn crsr green rev on orange rev off green
+250 if m>9 and c<6 then print "žcave number ";x:print:rem yellow
+260 print "‘you have";tm;"hours left":print:rem lt green
+270 print "_you are"
+280 gosub 1090:if a(x)=122 then 440
+290 if a(x)=41 then 470
+300 if a(x)=118 then 510
+310 if a(x)=42 then 550
+320 if a(x)=166 then 600
+330 if a(x)=113 then 630
+340 if a(x)=119 then 720
+350 if a(x)=32 then 760
+360 if int(2*rnd(1))=1 then print tab(7) "in an empty cave":goto 370
+365 print tab(7) "on a clear ledge"
+370 c=c+1:tm=tm-1:if tm<1 then tm=0:goto 810
+380 print
+390 goto 180
+400 rem *** map display ***
+405 poke 53280,0:poke 53281,11
+410 print "s":a(x)=120:print:print
+415 for t=1 to 100:print tab(13) "˜";:rem purple
+420 print chr$(a(t));:if t/10=int(t/10) then print
+430 next t:for t=1 to 2000:next t:tm=tm-3:a(x)=46:return
+440 rem *** torch ***
+450 print tab(7) "next to a burning torch"
+460 print "this will help your explorations":c=0:a(x)=46:m=m+10:goto 370
+470 rem *** rope ***
+480 print tab(7) "in a cave with some rope on the":print "floor"
+490 a(x)=46:p=p+1:if p>3 then print "you have all the rope you need":goto 370
+500 goto 370
+510 rem *** map ***
+520 print tab(7) "standing next to a map of the":print "caves of delirium"
+530 print:print "if you ever wish to see the map, enter ";:print "'m' and ";
+535 print "you will get a quick glance at"
+537 print "it this]will cost you three hours in    time"
+540 a(mp)=46:goto 370
+550 rem *** golden chalice ***
+560 print tab(7) "in the treasure room"
+570 print "beside you, the crystal statue"
+580 print "in its hand the golden chalice"
+590 a(gc)=46:goto 370
+600 rem *** flood ***
+610 print tab(7) "up to your neck in water":print "the flood has come"
+620 print "you manage to swim to safety but you    waste 10 hours"
+625 tm=tm-10:goto 370
+630 rem *** monster ***
+640 restore:for a=1 to int(5*rnd(1))+1:read m$:next
+650 data serpent,backbreaker,grizzly,giant rat,wolfman
+660 print tab(7) "in deep trouble, you have awoken the ";m$
+670 print "you must either fight or flee, enter    your choice ";
+675 print "(1 - fight, 2 - flee)"
+680 input f:if f=2 then x=x+int(5*rnd(1)+1)-int(5*rnd(1)+1):tm=tm-6
+685 if f=2 then print "you are safe for the moment":for td=1 to 1000:next td
+687 if f=2 then goto 370
+690 r=int(3*rnd(1)):if r=1 then print "you killed him with no effort"
+695 if r=1 then print "well done!":tm=tm+10:mk=mk+1:goto 370
+700 if r=2 then print "after a fierce battle, he starts to     retreat ":
+705 if r=2 then print "you have won!":tm=tm-3:mk=mk+1:goto 370
+710 print "the battle was hard, you fought bravely but the ";m$;" won!"
+712 for td=1 to 1000:next td
+715 goto 890
+720 rem *** quicksand ***
+730 print tab(7) "in quicksand and sinking fast!!!"
+740 gosub 1030
+750 goto 890
+760 rem *** opening ***
+770 print tab(7) "standing below a shaft of light":print "there is an opening"
+780 gosub 1260
+790 if p=4 then goto 970
+800 goto 370
+810 rem *** out of time ***
+820 for x=0 to 8:for y=8 to 0 step -1
+830 poke 53280,x:poke 53281,y:for td=1 to 50:next:next:next
+840 poke 53280,0:gosub 1030
+850 print "“qqqqqq]]]]]]]]]]]";:print "•time is up!!!":for td=1 to 1000:next td
+860 rem clear scrn crsr down crsr right white
+890 rem *** defeat ***
+895 poke 53280,0:poke 53281,2
+900 print "“":print "›you have been defeated, the caves make an ideal ":
+901 rem yellow
+905 print "burial chamber for you and others who have failed!!"
+910 if a(gc)=46 then sc=sc+60
+920 sc=sc+(15*p)+(10*mk)+tm
+930 print:print "your exploration level is ";sc
+940 gosub 1210:end
+970 rem *** victory ***
+975 poke 53280,11:poke 53281,2
+980 print "“›************** ™well done› **************"
+985 rem clr scrn yellow crsr down rev on green rev off yellow
+990 print:print "—you managed to escape from the caves of delirium"
+995 rem cyan
+1000 if a(gc)<>46 then 1020
+1010 print "and with the priceless golden chalice":gosub 1140
+1020 sc=sc+300:gosub 1030:print:goto 910
+1030 poke vo,15:poke ad,18:poke sr,36:poke wf,17
+1040 for h1=100 to 10 step -10:for l1=100 to 10 step -10
+1050 poke hf,h1:poke lf,l1:for td=1 to 75:next
+1060 poke hf,0:poke lf,0:for td=1 to 50:next
+1070 next:next
+1080 poke vo,0:poke wf,0:return
+1090 poke vo,15:poke ad,33:poke sr,129:poke wf,17
+1100 poke hf,17:poke lf,37:for td=1 to 175:next td
+1110 poke hf,14:poke lf,107:for td=1 to 250:next td
+1120 poke vo,0:poke wf,0:poke ad,0:poke sr,0
+1130 return
+1140 poke vo,15:poke ad,33:poke sr,33:poke wf,17
+1150 h1=int(10*rnd(1))+15:l1=int(20*rnd(1))+10
+1170 poke hf,h1:poke lf,l1:for td=1 to int((4*rnd(1))+1)*100:next td
+1180 poke hf,0:poke lf,0:for td=1 to 50:next td
+1190 pg=pg+1:if pg>3 then pg=0:return
+1200 goto 1150
+1210 poke vo,15:poke ad,18:poke sr,33:poke wf,33
+1220 poke hf,4:poke lf,208:for td=1 to 50:next td
+1230 poke hf,3:poke lf,54:for td=1 to 100:next td
+1240 sl=sl+1:if sl>5 then gg=0:poke vo,0:poke wf,0:return
+1250 goto 1220
+1260 poke vo,15:poke ad,18:poke sr,164:poke wf,65:hp=54275:lp=54274
+1265 poke hp,200:poke lp,15
+1270 poke hf,9:poke lf,159:for td=1 to 350:next td
+1280 poke vo,0:poke wf,0:for td=1 to 1000:next td:return
+1290 poke 53281,0:poke 53280,0
+1300 print "›qqqqqqq]]]]]]]]]the golden chalice"
+1305 rem orange rev on down crsr right crsr
+1310 return
